@@ -1,0 +1,56 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.7'
+	id 'io.spring.dependency-management' version '1.1.7'
+	id 'com.thinkimi.gradle.MybatisGenerator' version '2.4'
+}
+
+group = 'com.app'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+//	implementation 'javax.servlet:javax.servlet-api:4.0.1'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+mybatisGenerator {
+	verbose = true
+	configFile = "src/main/resources/mybatis-generator-config.xml"
+//	driverFile = "src/main/libs/mysql-connector-j-9.0.0.jar"
+	mybatisProperties = [
+			'driverFile'     : "$projectDir/src/main/libs/mysql-connector-j-9.0.0.jar",
+			'jdbcUrl'        : "jdbc:mysql://db:3306/cook_diary_db",
+			'jdbcDriverClass': 'com.mysql.cj.jdbc.Driver',
+			'jdbcUsername'   : 'root',
+			'jdbcPassword'   : 'rootpassword'
+	]
+}
+
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

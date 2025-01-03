@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ..  # プロジェクトルートをビルドコンテキストに設定
+      dockerfile: docker/Dockerfile  # Dockerfile の場所を指定
+    container_name: cook-diary-app
+    ports:
+      - "8080:8080" # ホスト:コンテナ
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/cook_diary_db
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=rootpassword
+    volumes:
+      - ./src/main/resources/static:/app/resources/static
+      - ./src/main/resources/templates:/path/to/templates
+    depends_on:
+      - db # dbコンテナの起動を優先
+
+  db:
+    image: mysql:8.0
+    container_name: cook-diary-db
+    ports:
+      - "3306:3306" # ホスト:コンテナ
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: cook_diary_db # 起動時に自動的に作成されるデータベースの名前
+    volumes:
+      - db_data:/var/lib/mysql
+      - ../sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  db_data:

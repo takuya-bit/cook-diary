@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.cook_diary.mapper.DishMapper">
+  <select id="getAllDishes" resultType="com.app.cook_diary.entity.Dish">
+    SELECT
+      name,
+      preparation_time,
+      cost,
+      image_url,
+      created_at
+    FROM
+      dish
+    WHERE
+      user_id = #{userId}
+  </select>
+  <insert id="registerDish">
+    INSERT INTO dish
+    (
+      user_id,
+      name,
+      preparation_time,
+      cost,
+      image_url,
+      material,
+      recipe,
+      created_at
+    )
+    VALUES
+    (
+      #{userId},
+      #{name},
+      #{preparationTime},
+      #{cost},
+      #{imageUrl},
+      #{material},
+      #{recipe},
+      CURRENT_DATE()
+    )
+  </insert>
+</mapper>
