@@ -9,4 +9,5 @@ import java.util.List;
 public interface DishMapper {
     List<Dish> getAllDishes(Integer userId);
 
+    void registerDish(Dish dish);
 }

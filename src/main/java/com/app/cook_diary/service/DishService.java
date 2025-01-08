@@ -17,7 +17,7 @@ public class DishService {
         return dishMapper.getAllDishes(userId);
     }
 
-//    public void saveDish(Dish dish) {
-//        dishMapper.save(dish);
-//    }
+    public void registerDish(Dish dish) {
+        dishMapper.registerDish(dish);
+    }
 }
